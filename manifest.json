@@ -1,0 +1,11 @@
+{
+  "name": "D e V Jardinagem",
+  "short_name": "D e V",
+  "description": "Controle de clientes, piscinas, jardins, agenda e financeiro da D e V Jardinagem",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3f6f4",
+  "theme_color": "#075c3b",
+  "orientation": "portrait",
+  "lang": "pt-BR"
+}
