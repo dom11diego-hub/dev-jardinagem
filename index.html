@@ -2,284 +2,238 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#075c3b">
 <title>D e V Jardinagem</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f3f6f4;
-    color:#19352a;
-    padding-bottom:80px;
+font-family:Arial,sans-serif;
+background:#f3f6f4;
+color:#19352a;
+padding-bottom:75px
 }
 
 header{
-    background:#075c3b;
-    color:white;
-    padding:20px 18px;
-    position:sticky;
-    top:0;
-    z-index:10;
-    box-shadow:0 2px 8px #0003;
+background:#075c3b;
+color:#fff;
+padding:20px 18px;
+position:sticky;
+top:0;
+z-index:10;
+box-shadow:0 2px 8px #0003
 }
 
 header h1{
-    font-size:25px;
-    margin-bottom:5px;
+font-size:24px;
+margin-bottom:5px
 }
 
 header p{
-    font-size:13px;
-    opacity:.9;
+font-size:13px;
+opacity:.9
 }
 
 .container{
-    max-width:800px;
-    margin:auto;
-    padding:16px;
+max-width:850px;
+margin:auto;
+padding:16px
 }
 
-.page{
-    display:none;
-}
+.page{display:none}
+.page.active{display:block}
 
-.page.active{
-    display:block;
-}
-
-h2{
-    margin-bottom:15px;
-}
+h2{margin-bottom:15px}
 
 .dashboard{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px
 }
 
-.card{
-    background:white;
-    border-radius:16px;
-    padding:18px;
-    box-shadow:0 2px 8px #0001;
-    margin-bottom:12px;
+.card,.item{
+background:#fff;
+border-radius:16px;
+padding:16px;
+box-shadow:0 2px 8px #0001;
+margin-bottom:12px
 }
 
 .card-title{
-    font-size:13px;
-    color:#65756e;
+font-size:13px;
+color:#65756e
 }
 
 .number{
-    font-size:27px;
-    font-weight:bold;
-    margin-top:7px;
+font-size:26px;
+font-weight:bold;
+margin-top:7px
 }
 
-.green{
-    color:#075c3b;
-}
-
-.red{
-    color:#c62828;
-}
-
-.blue{
-    color:#1769aa;
-}
+.green{color:#075c3b}
+.red{color:#c62828}
+.blue{color:#1769aa}
 
 button{
-    border:none;
-    border-radius:11px;
-    padding:12px 15px;
-    background:#075c3b;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-    margin:3px;
+border:0;
+border-radius:11px;
+padding:11px 14px;
+background:#075c3b;
+color:#fff;
+font-weight:bold;
+margin:3px;
+cursor:pointer
 }
 
 button.secondary{
-    background:#e2ebe6;
-    color:#075c3b;
+background:#e2ebe6;
+color:#075c3b
 }
 
 button.danger{
-    background:#c62828;
+background:#c62828
 }
 
-.actions{
-    display:flex;
-    flex-wrap:wrap;
-    margin:12px 0;
-}
-
-.item{
-    background:white;
-    border-radius:14px;
-    padding:15px;
-    margin-bottom:10px;
-    box-shadow:0 2px 6px #0001;
-}
-
-.item strong{
-    font-size:17px;
-}
-
-.item small{
-    display:block;
-    color:#697871;
-    margin-top:5px;
-}
-
-input,
-select,
-textarea{
-    width:100%;
-    padding:12px;
-    border:1px solid #ccd7d1;
-    border-radius:10px;
-    margin-top:6px;
-    margin-bottom:13px;
-    font-size:16px;
-    background:white;
+input,select,textarea{
+width:100%;
+padding:12px;
+border:1px solid #ccd7d1;
+border-radius:10px;
+margin:6px 0 13px;
+font-size:16px;
+background:#fff
 }
 
 textarea{
-    min-height:90px;
-    resize:vertical;
+min-height:85px
 }
 
 label{
-    font-size:13px;
-    font-weight:bold;
+font-size:13px;
+font-weight:bold
 }
 
 .form-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px
+}
+
+.actions,.action-row{
+display:flex;
+flex-wrap:wrap;
+margin:10px 0
 }
 
 .empty{
-    text-align:center;
-    color:#718078;
-    padding:30px 10px;
-}
-
-.search{
-    margin-bottom:12px;
-}
-
-.bottom-nav{
-    position:fixed;
-    left:0;
-    right:0;
-    bottom:0;
-    background:white;
-    border-top:1px solid #ddd;
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    padding:7px 3px;
-    z-index:20;
-}
-
-.bottom-nav button{
-    background:white;
-    color:#50615a;
-    padding:7px 2px;
-    margin:0;
-    font-size:11px;
-}
-
-.bottom-nav button.active{
-    color:#075c3b;
-    font-weight:bold;
-}
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:#0008;
-    z-index:50;
-    align-items:flex-end;
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-content{
-    background:white;
-    width:100%;
-    max-height:92vh;
-    overflow:auto;
-    border-radius:22px 22px 0 0;
-    padding:20px;
-}
-
-.modal-content h2{
-    margin-bottom:20px;
-}
-
-.close{
-    float:right;
-    background:#eee;
-    color:#333;
-    border-radius:50%;
-    width:38px;
-    height:38px;
-    padding:0;
-}
-
-.photo-box{
-    border:2px dashed #b9c8c0;
-    border-radius:12px;
-    padding:20px;
-    text-align:center;
-    margin-bottom:12px;
-}
-
-.photo-preview{
-    max-width:100%;
-    border-radius:12px;
-    margin-top:10px;
+text-align:center;
+color:#718078;
+padding:30px 10px
 }
 
 .badge{
-    display:inline-block;
-    padding:5px 9px;
-    border-radius:20px;
-    background:#e5f1eb;
-    color:#075c3b;
-    font-size:12px;
-    font-weight:bold;
+display:inline-block;
+padding:5px 9px;
+border-radius:20px;
+background:#e5f1eb;
+color:#075c3b;
+font-size:12px;
+font-weight:bold;
+margin:3px
 }
 
-.finance-summary{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
+.bottom-nav{
+position:fixed;
+left:0;
+right:0;
+bottom:0;
+background:#fff;
+border-top:1px solid #ddd;
+display:grid;
+grid-template-columns:repeat(5,1fr);
+padding:6px 3px;
+z-index:20
 }
 
-hr{
-    border:none;
-    border-top:1px solid #eee;
-    margin:15px 0;
+.bottom-nav button{
+background:#fff;
+color:#50615a;
+padding:6px 2px;
+margin:0;
+font-size:11px
+}
+
+.bottom-nav button.active{
+color:#075c3b
+}
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:#0008;
+z-index:50;
+align-items:flex-end
+}
+
+.modal.show{
+display:flex
+}
+
+.modal-content{
+background:#fff;
+width:100%;
+max-height:92vh;
+overflow:auto;
+border-radius:22px 22px 0 0;
+padding:20px
+}
+
+.close{
+float:right;
+background:#eee;
+color:#333;
+border-radius:50%;
+width:38px;
+height:38px;
+padding:0
+}
+
+.photo-box{
+border:2px dashed #b9c8c0;
+border-radius:12px;
+padding:15px;
+text-align:center;
+margin-bottom:12px
+}
+
+.preview{
+max-width:100%;
+max-height:180px;
+border-radius:12px;
+margin-top:8px
+}
+
+.monthly{
+background:#eaf5ef;
+border:1px solid #cde4d7;
+border-radius:14px;
+padding:14px;
+margin:12px 0
+}
+
+small{
+display:block;
+margin-top:7px;
+color:#66756e
 }
 
 @media(max-width:500px){
-    .form-row{
-        grid-template-columns:1fr;
-    }
+.form-row{
+grid-template-columns:1fr
+}
 }
 </style>
 </head>
@@ -287,13 +241,12 @@ hr{
 <body>
 
 <header>
-    <h1>🌿 D e V JARDINAGEM</h1>
-    <p>Controle completo de clientes, jardins, piscinas e financeiro</p>
+<h1>🌿 D e V JARDINAGEM</h1>
+<p>Clientes, piscinas, jardins, agenda e financeiro</p>
 </header>
 
 <div class="container">
 
-<!-- INÍCIO -->
 <section id="inicio" class="page active">
 
 <h2>🏠 Painel</h2>
@@ -327,10 +280,15 @@ hr{
 <div class="number green" id="saldoInicio">R$ 0,00</div>
 </div>
 
+<div class="card">
+<div class="card-title">Previsto dos serviços mensais</div>
+<div class="number blue" id="previstoInicio">R$ 0,00</div>
+</div>
+
 <div class="actions">
 <button onclick="abrirModal('cliente')">+ Cliente</button>
-<button onclick="abrirModal('servico')" class="secondary">+ Serviço</button>
-<button onclick="abrirModal('financeiro')" class="secondary">+ Movimento</button>
+<button class="secondary" onclick="abrirModal('servico')">+ Serviço</button>
+<button class="secondary" onclick="abrirModal('financeiro')">+ Movimento</button>
 </div>
 
 <div class="card">
@@ -341,16 +299,15 @@ hr{
 </section>
 
 
-<!-- CLIENTES -->
 <section id="clientes" class="page">
 
 <h2>👥 Clientes</h2>
 
 <input
-class="search"
 id="buscaCliente"
 placeholder="🔎 Procurar cliente..."
-oninput="mostrarClientes()">
+oninput="mostrarClientes()"
+>
 
 <button onclick="abrirModal('cliente')">
 + Novo cliente
@@ -361,7 +318,6 @@ oninput="mostrarClientes()">
 </section>
 
 
-<!-- PISCINAS -->
 <section id="piscinas" class="page">
 
 <h2>🏊 Piscinas</h2>
@@ -375,7 +331,6 @@ oninput="mostrarClientes()">
 </section>
 
 
-<!-- JARDINS -->
 <section id="jardins" class="page">
 
 <h2>🌿 Jardins</h2>
@@ -389,12 +344,11 @@ oninput="mostrarClientes()">
 </section>
 
 
-<!-- FINANCEIRO -->
 <section id="financeiro" class="page">
 
 <h2>💰 Financeiro</h2>
 
-<div class="finance-summary">
+<div class="dashboard">
 
 <div class="card">
 <div class="card-title">Entradas</div>
@@ -406,25 +360,61 @@ oninput="mostrarClientes()">
 <div class="number red" id="totalSaidas">R$ 0,00</div>
 </div>
 
-</div>
-
 <div class="card">
 <div class="card-title">Saldo</div>
 <div class="number blue" id="saldoFinanceiro">R$ 0,00</div>
 </div>
 
+<div class="card">
+<div class="card-title">Previsto no mês</div>
+<div class="number blue" id="previstoFinanceiro">R$ 0,00</div>
+</div>
+
+</div>
+
+<div class="monthly">
+
+<b>📅 Serviços mensais</b>
+
+<div id="resumoMensais" style="margin-top:8px"></div>
+
+</div>
+
+<div class="actions">
+
 <button onclick="abrirModal('financeiro')">
 + Novo movimento
 </button>
 
-<hr>
+<button class="secondary" onclick="exportarBackup()">
+💾 Backup
+</button>
+
+<button
+class="secondary"
+onclick="document.getElementById('arquivoBackup').click()">
+📥 Restaurar
+</button>
+
+<button class="secondary" onclick="relatorioMes()">
+📊 Relatório do mês
+</button>
+
+<input
+id="arquivoBackup"
+type="file"
+accept=".json,application/json"
+style="display:none"
+onchange="restaurarBackup(event)"
+>
+
+</div>
 
 <div id="listaFinanceiro"></div>
 
 </section>
 
 
-<!-- AGENDA -->
 <section id="agenda" class="page">
 
 <h2>📅 Agenda</h2>
@@ -440,38 +430,46 @@ oninput="mostrarClientes()">
 </div>
 
 
-<!-- NAVEGAÇÃO -->
 <nav class="bottom-nav">
 
-<button class="active" onclick="irPara('inicio',this)">
+<button
+class="active"
+onclick="irPara('inicio',this)">
 🏠<br>Início
 </button>
 
-<button onclick="irPara('clientes',this)">
+<button
+onclick="irPara('clientes',this)">
 👥<br>Clientes
 </button>
 
-<button onclick="irPara('piscinas',this)">
+<button
+onclick="irPara('piscinas',this)">
 🏊<br>Piscinas
 </button>
 
-<button onclick="irPara('jardins',this)">
+<button
+onclick="irPara('jardins',this)">
 🌿<br>Jardins
 </button>
 
-<button onclick="irPara('financeiro',this)">
+<button
+onclick="irPara('financeiro',this)">
 💰<br>Financeiro
 </button>
 
 </nav>
 
 
-<!-- MODAL -->
 <div id="modal" class="modal">
 
 <div class="modal-content">
 
-<button class="close" onclick="fecharModal()">×</button>
+<button
+class="close"
+onclick="fecharModal()">
+×
+</button>
 
 <h2 id="tituloModal"></h2>
 
@@ -484,15 +482,25 @@ oninput="mostrarClientes()">
 
 <script>
 
-const CHAVE = "dev_jardinagem_dados";
+const CHAVE='dev_jardinagem_dados';
 
-let dados = JSON.parse(
-localStorage.getItem(CHAVE)
-||
+let dados=JSON.parse(
+localStorage.getItem(CHAVE) ||
 '{"clientes":[],"piscinas":[],"jardins":[],"financeiro":[],"servicos":[]}'
 );
 
-let tipoModal = "";
+dados.clientes=dados.clientes||[];
+dados.piscinas=dados.piscinas||[];
+dados.jardins=dados.jardins||[];
+dados.financeiro=dados.financeiro||[];
+dados.servicos=dados.servicos||[];
+
+dados.servicos.forEach(function(s){
+s.valor=Number(s.valor||0);
+});
+
+let tipoModal='';
+
 
 function salvar(){
 
@@ -505,42 +513,60 @@ atualizarTudo();
 
 }
 
-function dinheiro(valor){
 
-return Number(valor || 0).toLocaleString(
-"pt-BR",
+function dinheiro(v){
+
+return Number(v||0).toLocaleString(
+'pt-BR',
 {
-style:"currency",
-currency:"BRL"
+style:'currency',
+currency:'BRL'
 }
 );
 
 }
 
-function escapar(texto){
 
-return String(texto || "")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+function esc(v){
+
+return String(v==null?'':v)
+.replace(/&/g,'&amp;')
+.replace(/</g,'&lt;')
+.replace(/>/g,'&gt;')
+.replace(/"/g,'&quot;')
+.replace(/'/g,'&#039;');
 
 }
 
 
-function irPara(id,botao){
+function hoje(){
 
-document.querySelectorAll(".page")
-.forEach(p=>p.classList.remove("active"));
+return new Date()
+.toISOString()
+.slice(0,10);
 
-document.getElementById(id)
-.classList.add("active");
+}
 
-document.querySelectorAll(".bottom-nav button")
-.forEach(b=>b.classList.remove("active"));
 
-botao.classList.add("active");
+function irPara(id,b){
+
+document
+.querySelectorAll('.page')
+.forEach(function(x){
+x.classList.remove('active')
+});
+
+document
+.getElementById(id)
+.classList.add('active');
+
+document
+.querySelectorAll('.bottom-nav button')
+.forEach(function(x){
+x.classList.remove('active')
+});
+
+b.classList.add('active');
 
 atualizarTudo();
 
@@ -549,325 +575,413 @@ window.scrollTo(0,0);
 }
 
 
+function opcoesClientes(){
+
+if(!dados.clientes.length){
+
+return '<option value="">Nenhum cliente cadastrado</option>';
+
+}
+
+return dados.clientes
+.map(function(c){
+
+return '<option value="'+
+esc(c.nome)+
+'">'+
+esc(c.nome)+
+'</option>';
+
+})
+.join('');
+
+}
+
+
 function abrirModal(tipo){
 
 tipoModal=tipo;
 
-let titulo="";
-let html="";
-
-if(tipo==="cliente"){
-
-titulo="👤 Novo cliente";
-
-html=`
-
-<label>Nome</label>
-<input name="nome" required>
-
-<label>Telefone</label>
-<input name="telefone" type="tel">
-
-<label>Endereço</label>
-<input name="endereco">
-
-<label>Observações</label>
-<textarea name="observacoes"></textarea>
-
-<button type="submit">Salvar cliente</button>
-`;
-
-}
+var titulo='';
+var html='';
 
 
-if(tipo==="piscina"){
+if(tipo==='cliente'){
 
-titulo="🏊 Nova piscina";
+titulo='👤 Novo cliente';
 
-html=`
+html=
+'<label>Nome</label>'+
+'<input name="nome" required>'+
 
-<label>Cliente</label>
-<select name="cliente">
-${opcoesClientes()}
-</select>
+'<label>Telefone</label>'+
+'<input name="telefone" type="tel">'+
 
-<label>Endereço</label>
-<input name="endereco">
+'<label>Endereço</label>'+
+'<input name="endereco">'+
 
-<div class="form-row">
+'<label>Observações</label>'+
+'<textarea name="observacoes"></textarea>'+
 
-<div>
-<label>Volume / tamanho</label>
-<input name="volume">
-</div>
-
-<div>
-<label>pH</label>
-<input name="ph" type="number" step="0.1">
-</div>
-
-</div>
-
-<label>Cloro</label>
-<input name="cloro">
-
-<label>Produtos utilizados</label>
-<textarea name="produtos"></textarea>
-
-<label>Observações</label>
-<textarea name="observacoes"></textarea>
-
-<div class="photo-box">
-📷 Foto da piscina
-<input type="file" accept="image/*" name="foto">
-</div>
-
-<button type="submit">Salvar piscina</button>
-`;
+'<button type="submit">Salvar cliente</button>';
 
 }
 
 
-if(tipo==="jardim"){
+if(tipo==='piscina'){
 
-titulo="🌿 Novo jardim";
+titulo='🏊 Nova piscina';
 
-html=`
+html=
 
-<label>Cliente</label>
-<select name="cliente">
-${opcoesClientes()}
-</select>
+'<label>Cliente</label>'+
+'<select name="cliente">'+
+opcoesClientes()+
+'</select>'+
 
-<label>Endereço</label>
-<input name="endereco">
+'<label>Endereço</label>'+
+'<input name="endereco">'+
 
-<label>Tipo de serviço</label>
+'<div class="form-row">'+
 
-<select name="servico">
+'<div>'+
+'<label>Volume / tamanho</label>'+
+'<input name="volume">'+
+'</div>'+
 
-<option>Poda e corte</option>
-<option>Paisagismo</option>
-<option>Horta</option>
-<option>Manutenção geral</option>
-<option>Plantio</option>
-<option>Outro</option>
+'<div>'+
+'<label>pH</label>'+
+'<input name="ph" type="number" step="0.1">'+
+'</div>'+
 
-</select>
+'</div>'+
 
-<label>Produtos utilizados</label>
-<textarea name="produtos"></textarea>
+'<label>Cloro</label>'+
+'<input name="cloro">'+
 
-<label>Observações</label>
-<textarea name="observacoes"></textarea>
+'<label>Produtos utilizados</label>'+
+'<textarea name="produtos"></textarea>'+
 
-<div class="photo-box">
-📷 Foto do jardim
-<input type="file" accept="image/*" name="foto">
-</div>
+'<label>Observações</label>'+
+'<textarea name="observacoes"></textarea>'+
 
-<button type="submit">Salvar jardim</button>
-`;
+'<div class="photo-box">'+
+'📷 Foto da piscina'+
+'<input type="file" accept="image/*" name="foto">'+
+'</div>'+
 
-}
-
-
-if(tipo==="financeiro"){
-
-titulo="💰 Movimento financeiro";
-
-html=`
-
-<label>Tipo</label>
-
-<select name="tipo">
-
-<option value="entrada">
-💚 Entrada
-</option>
-
-<option value="saida">
-🔴 Saída
-</option>
-
-</select>
-
-<label>Descrição</label>
-<input name="descricao" required>
-
-<label>Categoria</label>
-
-<select name="categoria">
-
-<option>Serviço</option>
-<option>Produto piscina</option>
-<option>Terra</option>
-<option>Adubo</option>
-<option>Fertilizante</option>
-<option>Gasolina</option>
-<option>Manutenção de máquina</option>
-<option>Ferramentas</option>
-<option>Outros</option>
-
-</select>
-
-<label>Valor</label>
-<input name="valor" type="number" step="0.01" required>
-
-<label>Data</label>
-<input name="data" type="date"
-value="${new Date().toISOString().slice(0,10)}">
-
-<button type="submit">
-Salvar movimento
-</button>
-`;
+'<button type="submit">Salvar piscina</button>';
 
 }
 
 
-if(tipo==="servico"){
+if(tipo==='jardim'){
 
-titulo="📅 Agendar serviço";
+titulo='🌿 Novo jardim';
 
-html=`
+html=
 
-<label>Tipo</label>
+'<label>Cliente</label>'+
+'<select name="cliente">'+
+opcoesClientes()+
+'</select>'+
 
-<select name="tipo">
+'<label>Endereço</label>'+
+'<input name="endereco">'+
 
-<option>Piscina</option>
-<option>Jardim</option>
+'<label>Tipo de serviço</label>'+
+'<select name="servico">'+
+'<option>Poda e corte</option>'+
+'<option>Paisagismo</option>'+
+'<option>Horta</option>'+
+'<option>Manutenção geral</option>'+
+'<option>Plantio</option>'+
+'<option>Outro</option>'+
+'</select>'+
 
-</select>
+'<label>Produtos utilizados</label>'+
+'<textarea name="produtos"></textarea>'+
 
-<label>Cliente</label>
+'<label>Observações</label>'+
+'<textarea name="observacoes"></textarea>'+
 
-<select name="cliente">
+'<div class="photo-box">'+
+'📷 Foto do jardim'+
+'<input type="file" accept="image/*" name="foto">'+
+'</div>'+
 
-${opcoesClientes()}
-
-</select>
-
-<label>Serviço</label>
-
-<input name="servico" required>
-
-<div class="form-row">
-
-<div>
-
-<label>Data</label>
-
-<input
-name="data"
-type="date"
-value="${new Date().toISOString().slice(0,10)}">
-
-</div>
-
-<div>
-
-<label>Horário</label>
-
-<input name="hora" type="time">
-
-</div>
-
-</div>
-
-<label>Observações</label>
-
-<textarea name="observacoes"></textarea>
-
-<button type="submit">
-Agendar serviço
-</button>
-
-`;
+'<button type="submit">Salvar jardim</button>';
 
 }
 
 
-document.getElementById("tituloModal")
-.innerHTML=titulo;
+if(tipo==='financeiro'){
 
-document.getElementById("formulario")
-.innerHTML=html;
+titulo='💰 Movimento financeiro';
 
-document.getElementById("modal")
-.classList.add("show");
+html=
+
+'<label>Tipo</label>'+
+'<select name="tipo">'+
+'<option value="entrada">💚 Entrada</option>'+
+'<option value="saida">🔴 Saída</option>'+
+'</select>'+
+
+'<label>Descrição</label>'+
+'<input name="descricao" required>'+
+
+'<label>Categoria</label>'+
+'<select name="categoria">'+
+'<option>Serviço</option>'+
+'<option>Produto piscina</option>'+
+'<option>Terra</option>'+
+'<option>Adubo</option>'+
+'<option>Fertilizante</option>'+
+'<option>Gasolina</option>'+
+'<option>Manutenção de máquina</option>'+
+'<option>Ferramentas</option>'+
+'<option>Outros</option>'+
+'</select>'+
+
+'<label>Valor</label>'+
+'<input name="valor" type="number" step="0.01" required>'+
+
+'<label>Data</label>'+
+'<input name="data" type="date" value="'+
+hoje()+
+'">'+
+
+'<button type="submit">Salvar movimento</button>';
+
+}
+
+
+if(tipo==='servico'){
+
+titulo='📅 Agendar serviço';
+
+html=
+
+'<label>Tipo</label>'+
+'<select name="tipo">'+
+'<option>Piscina</option>'+
+'<option>Jardim</option>'+
+'</select>'+
+
+'<label>Cliente</label>'+
+'<select name="cliente">'+
+opcoesClientes()+
+'</select>'+
+
+'<label>Serviço</label>'+
+'<input name="servico" required>'+
+
+'<div class="form-row">'+
+
+'<div>'+
+'<label>Valor do serviço</label>'+
+'<input name="valor" type="number" step="0.01" min="0" placeholder="0,00">'+
+'</div>'+
+
+'<div>'+
+'<label>Horário</label>'+
+'<input name="hora" type="time">'+
+'</div>'+
+
+'</div>'+
+
+'<label>Data do primeiro serviço</label>'+
+'<input name="data" type="date" value="'+
+hoje()+
+'">'+
+
+'<label>Serviço mensal?</label>'+
+'<select name="mensal" onchange="campoMensal(this)">'+
+'<option value="nao">Não</option>'+
+'<option value="sim">Sim</option>'+
+'</select>'+
+
+'<div id="diaBox" style="display:none">'+
+
+'<label>Dia do mês</label>'+
+'<input name="diaMensal" type="number" min="1" max="31" placeholder="Ex.: 10">'+
+
+'<small>O valor entra no previsto de todos os meses.</small>'+
+
+'</div>'+
+
+'<label>Observações</label>'+
+'<textarea name="observacoes"></textarea>'+
+
+'<button type="submit">Agendar serviço</button>';
+
+}
+
+
+document.getElementById('tituloModal').innerHTML=titulo;
+
+document.getElementById('formulario').innerHTML=html;
+
+document.getElementById('modal').classList.add('show');
+
+}
+
+
+function campoMensal(el){
+
+var b=document.getElementById('diaBox');
+
+if(b){
+
+b.style.display=
+el.value==='sim'
+?'block'
+:'none';
+
+}
 
 }
 
 
 function fecharModal(){
 
-document.getElementById("modal")
-.classList.remove("show");
+document
+.getElementById('modal')
+.classList.remove('show');
 
 }
 
 
-function opcoesClientes(){
+function imagem(file){
 
-if(dados.clientes.length===0){
+return new Promise(function(resolve,reject){
 
-return `<option value="">Nenhum cliente cadastrado</option>`;
+if(!file||!file.size){
 
-}
+resolve('');
 
-return dados.clientes
-.map(c=>`
-<option value="${escapar(c.nome)}">
-${escapar(c.nome)}
-</option>
-`)
-.join("");
+return;
 
 }
 
+var r=new FileReader();
 
-document.getElementById("formulario")
-.addEventListener("submit",function(e){
+r.onload=function(e){
+
+var i=new Image();
+
+i.onload=function(){
+
+var m=1280;
+
+var s=Math.min(
+1,
+m/Math.max(i.width,i.height)
+);
+
+var c=document.createElement('canvas');
+
+c.width=Math.round(i.width*s);
+c.height=Math.round(i.height*s);
+
+c.getContext('2d')
+.drawImage(
+i,
+0,
+0,
+c.width,
+c.height
+);
+
+resolve(
+c.toDataURL(
+'image/jpeg',
+.72
+)
+);
+
+};
+
+i.onerror=reject;
+
+i.src=e.target.result;
+
+};
+
+r.onerror=reject;
+
+r.readAsDataURL(file);
+
+}
+
+
+document
+.getElementById('formulario')
+.addEventListener(
+'submit',
+async function(e){
 
 e.preventDefault();
 
-const formData=new FormData(this);
+var fd=new FormData(this);
 
-const objeto=Object.fromEntries(formData.entries());
+var o=Object.fromEntries(fd.entries());
 
-objeto.id=Date.now();
+o.id=Date.now();
 
-if(tipoModal==="cliente"){
+var f=fd.get('foto');
 
-dados.clientes.push(objeto);
+if(f&&f.size){
 
-}
-
-if(tipoModal==="piscina"){
-
-dados.piscinas.push(objeto);
+o.foto=await imagem(f);
 
 }
 
-if(tipoModal==="jardim"){
+if(tipoModal==='cliente'){
 
-dados.jardins.push(objeto);
-
-}
-
-if(tipoModal==="financeiro"){
-
-objeto.valor=Number(objeto.valor);
-
-dados.financeiro.push(objeto);
+dados.clientes.push(o);
 
 }
 
-if(tipoModal==="servico"){
+if(tipoModal==='piscina'){
 
-dados.servicos.push(objeto);
+dados.piscinas.push(o);
+
+}
+
+if(tipoModal==='jardim'){
+
+dados.jardins.push(o);
+
+}
+
+if(tipoModal==='financeiro'){
+
+o.valor=Number(o.valor||0);
+
+dados.financeiro.push(o);
+
+}
+
+if(tipoModal==='servico'){
+
+o.valor=Number(o.valor||0);
+
+o.mensal=o.mensal||'nao';
+
+o.diaMensal=
+o.mensal==='sim'
+?
+Number(
+o.diaMensal||
+new Date(
+o.data||hoje()
+).getDate()
+)
+:
+'';
+
+dados.servicos.push(o);
 
 }
 
@@ -875,318 +989,755 @@ salvar();
 
 fecharModal();
 
+}
+);
+
+function valorMensal(){
+
+return dados.servicos
+.filter(function(s){
+return s.mensal==='sim';
+})
+.reduce(function(t,s){
+return t+Number(s.valor||0);
+},0);
+
+}
+
+function excluir(tipo,id){
+
+if(!confirm('Excluir este registro?'))return;
+
+var mapa={
+cliente:'clientes',
+piscina:'piscinas',
+jardim:'jardins',
+financeiro:'financeiro',
+servico:'servicos'
+};
+
+dados[mapa[tipo]]=
+dados[mapa[tipo]]
+.filter(function(x){
+return Number(x.id)!==Number(id);
 });
+
+salvar();
+
+}
+
+function editar(tipo,id){
+
+var mapa={
+cliente:'clientes',
+piscina:'piscinas',
+jardim:'jardins',
+financeiro:'financeiro',
+servico:'servicos'
+};
+
+var x=
+dados[mapa[tipo]]
+.find(function(v){
+return Number(v.id)===Number(id);
+});
+
+if(!x)return;
+
+function p(label,val){
+
+var z=prompt(
+label,
+val==null?'':val
+);
+
+return z===null?val:z;
+
+}
+
+if(tipo==='cliente'){
+
+x.nome=p('Nome',x.nome);
+x.telefone=p('Telefone',x.telefone);
+x.endereco=p('Endereço',x.endereco);
+x.observacoes=p('Observações',x.observacoes);
+
+}
+
+if(tipo==='piscina'){
+
+x.volume=p('Volume/tamanho',x.volume);
+x.ph=p('pH',x.ph);
+x.cloro=p('Cloro',x.cloro);
+x.produtos=p('Produtos',x.produtos);
+x.observacoes=p('Observações',x.observacoes);
+
+}
+
+if(tipo==='jardim'){
+
+x.servico=p(
+'Tipo de serviço',
+x.servico
+);
+
+x.produtos=p(
+'Produtos',
+x.produtos
+);
+
+x.observacoes=p(
+'Observações',
+x.observacoes
+);
+
+}
+
+if(tipo==='financeiro'){
+
+x.descricao=p(
+'Descrição',
+x.descricao
+);
+
+var v=p(
+'Valor',
+x.valor
+);
+
+x.valor=
+Number(
+String(v).replace(',','.')
+)||0;
+
+x.categoria=p(
+'Categoria',
+x.categoria
+);
+
+x.data=p(
+'Data AAAA-MM-DD',
+x.data
+);
+
+}
+
+if(tipo==='servico'){
+
+x.servico=p(
+'Serviço',
+x.servico
+);
+
+var v2=p(
+'Valor do serviço',
+x.valor
+);
+
+x.valor=
+Number(
+String(v2).replace(',','.')
+)||0;
+
+x.data=p(
+'Data',
+x.data
+);
+
+x.mensal=
+confirm(
+'Este serviço é mensal?'
+)
+?'sim'
+:'nao';
+
+if(x.mensal==='sim'){
+
+x.diaMensal=
+Number(
+p(
+'Dia do mês',
+x.diaMensal||1
+)
+)||1;
+
+}
+
+}
+
+salvar();
+
+}
 
 
 function mostrarClientes(){
 
-const busca=
-(document.getElementById("buscaCliente")?.value || "")
-.toLowerCase();
+var b=
+(
+document.getElementById(
+'buscaCliente'
+).value||''
+).toLowerCase();
 
-const lista=dados.clientes.filter(c=>
-c.nome.toLowerCase().includes(busca)
+var l=
+dados.clientes.filter(
+function(c){
+
+return String(
+c.nome||''
+)
+.toLowerCase()
+.includes(b);
+
+}
 );
 
-const elemento=
-document.getElementById("listaClientes");
+var el=
+document.getElementById(
+'listaClientes'
+);
 
-if(lista.length===0){
+if(!l.length){
 
-elemento.innerHTML=
-'<div class="empty">Nenhum cliente encontrado.</div>';
+el.innerHTML=
+'<div class="empty">'+
+'Nenhum cliente encontrado.'+
+'</div>';
 
 return;
 
 }
 
-elemento.innerHTML=lista.map(c=>`
+el.innerHTML=
+l.map(function(c){
 
-<div class="item">
+return '<div class="item">'+
 
-<strong>👤 ${escapar(c.nome)}</strong>
+'<strong>👤 '+
+esc(c.nome)+
+'</strong>'+
 
-<small>
-📞 ${escapar(c.telefone)}
-</small>
+'<small>📞 '+
+esc(c.telefone)+
+'</small>'+
 
-<small>
-📍 ${escapar(c.endereco)}
-</small>
+'<small>📍 '+
+esc(c.endereco)+
+'</small>'+
 
-<small>
-${escapar(c.observacoes)}
-</small>
+'<small>'+
+esc(c.observacoes)+
+'</small>'+
 
-</div>
+'<div class="action-row">'+
 
-`).join("");
+'<button class="secondary" onclick="editar(\'cliente\','+
+c.id+
+')">✏️ Editar</button>'+
+
+'<button class="danger" onclick="excluir(\'cliente\','+
+c.id+
+')">🗑️ Excluir</button>'+
+
+'</div>'+
+
+'</div>';
+
+})
+.join('');
 
 }
-
 
 function mostrarPiscinas(){
 
-const el=document.getElementById("listaPiscinas");
+var el=
+document.getElementById(
+'listaPiscinas'
+);
 
-if(dados.piscinas.length===0){
+if(!dados.piscinas.length){
 
 el.innerHTML=
-'<div class="empty">Nenhuma piscina cadastrada.</div>';
+'<div class="empty">'+
+'Nenhuma piscina cadastrada.'+
+'</div>';
 
 return;
 
 }
 
-el.innerHTML=dados.piscinas.map(p=>`
+el.innerHTML=
+dados.piscinas.map(function(p){
 
-<div class="item">
+return '<div class="item">'+
 
-<strong>🏊 ${escapar(p.cliente)}</strong>
+'<strong>🏊 '+
+esc(p.cliente)+
+'</strong>'+
 
-<span class="badge">
-pH ${escapar(p.ph || "-")}
-</span>
+'<span class="badge">pH '+
+esc(p.ph||'-')+
+'</span>'+
 
-<span class="badge">
-Cloro ${escapar(p.cloro || "-")}
-</span>
+'<span class="badge">Cloro '+
+esc(p.cloro||'-')+
+'</span>'+
 
-<small>
-📏 Volume/tamanho: ${escapar(p.volume)}
-</small>
+'<small>📏 '+
+esc(p.volume)+
+'</small>'+
 
-<small>
-🧪 Produtos: ${escapar(p.produtos)}
-</small>
+'<small>🧪 '+
+esc(p.produtos)+
+'</small>'+
 
-<small>
-📝 ${escapar(p.observacoes)}
-</small>
+'<small>📝 '+
+esc(p.observacoes)+
+'</small>'+
 
-</div>
+(p.foto?
+'<img class="preview" src="'+
+p.foto+
+'">':'')+
 
-`).join("");
+'<div class="action-row">'+
+
+'<button class="secondary" onclick="editar(\'piscina\','+
+p.id+
+')">✏️ Editar</button>'+
+
+'<button class="danger" onclick="excluir(\'piscina\','+
+p.id+
+')">🗑️ Excluir</button>'+
+
+'</div>'+
+
+'</div>';
+
+})
+.join('');
 
 }
-
 
 function mostrarJardins(){
 
-const el=document.getElementById("listaJardins");
+var el=
+document.getElementById(
+'listaJardins'
+);
 
-if(dados.jardins.length===0){
+if(!dados.jardins.length){
 
 el.innerHTML=
-'<div class="empty">Nenhum jardim cadastrado.</div>';
+'<div class="empty">'+
+'Nenhum jardim cadastrado.'+
+'</div>';
 
 return;
 
 }
 
-el.innerHTML=dados.jardins.map(j=>`
+el.innerHTML=
+dados.jardins.map(function(j){
 
-<div class="item">
+return '<div class="item">'+
 
-<strong>🌿 ${escapar(j.cliente)}</strong>
+'<strong>🌿 '+
+esc(j.cliente)+
+'</strong>'+
 
-<span class="badge">
-${escapar(j.servico)}
-</span>
+'<span class="badge">'+
+esc(j.servico)+
+'</span>'+
 
-<small>
-📍 ${escapar(j.endereco)}
-</small>
+'<small>📍 '+
+esc(j.endereco)+
+'</small>'+
 
-<small>
-🌱 Produtos: ${escapar(j.produtos)}
-</small>
+'<small>🌱 '+
+esc(j.produtos)+
+'</small>'+
 
-<small>
-📝 ${escapar(j.observacoes)}
-</small>
+'<small>📝 '+
+esc(j.observacoes)+
+'</small>'+
 
-</div>
+(j.foto?
+'<img class="preview" src="'+
+j.foto+
+'">':'')+
 
-`).join("");
+'<div class="action-row">'+
+
+'<button class="secondary" onclick="editar(\'jardim\','+
+j.id+
+')">✏️ Editar</button>'+
+
+'<button class="danger" onclick="excluir(\'jardim\','+
+j.id+
+')">🗑️ Excluir</button>'+
+
+'</div>'+
+
+'</div>';
+
+})
+.join('');
 
 }
-
-
 function mostrarFinanceiro(){
 
-let entradas=dados.financeiro
-.filter(x=>x.tipo==="entrada")
-.reduce((s,x)=>s+Number(x.valor),0);
+var ent=dados.financeiro
+.filter(function(x){
+return x.tipo==='entrada';
+})
+.reduce(function(t,x){
+return t+Number(x.valor||0);
+},0);
 
-let saidas=dados.financeiro
-.filter(x=>x.tipo==="saida")
-.reduce((s,x)=>s+Number(x.valor),0);
+var sai=dados.financeiro
+.filter(function(x){
+return x.tipo==='saida';
+})
+.reduce(function(t,x){
+return t+Number(x.valor||0);
+},0);
 
-document.getElementById("totalEntradas")
-.innerText=dinheiro(entradas);
+document.getElementById(
+'totalEntradas'
+).innerText=dinheiro(ent);
 
-document.getElementById("totalSaidas")
-.innerText=dinheiro(saidas);
+document.getElementById(
+'totalSaidas'
+).innerText=dinheiro(sai);
 
-document.getElementById("saldoFinanceiro")
-.innerText=dinheiro(entradas-saidas);
+document.getElementById(
+'saldoFinanceiro'
+).innerText=dinheiro(ent-sai);
 
-const el=document.getElementById("listaFinanceiro");
+document.getElementById(
+'previstoFinanceiro'
+).innerText=dinheiro(
+valorMensal()
+);
 
-if(dados.financeiro.length===0){
+
+var m=dados.servicos.filter(
+function(s){
+return s.mensal==='sim';
+}
+);
+
+
+document.getElementById(
+'resumoMensais'
+).innerHTML=
+
+m.length
+
+?
+
+m.map(function(s){
+
+return '👤 '+
+esc(s.cliente)+
+' — <b>'+
+dinheiro(s.valor)+
+'</b> '+
+'<span class="badge">dia '+
+esc(s.diaMensal)+
+'</span>';
+
+}).join('<br>')
+
+:
+
+'Nenhum serviço mensal cadastrado.';
+
+
+var el=
+document.getElementById(
+'listaFinanceiro'
+);
+
+
+if(!dados.financeiro.length){
 
 el.innerHTML=
-'<div class="empty">Nenhum movimento registrado.</div>';
+'<div class="empty">'+
+'Nenhum movimento registrado.'+
+'</div>';
 
 return;
 
 }
 
-el.innerHTML=dados.financeiro
+
+el.innerHTML=
+dados.financeiro
 .slice()
 .reverse()
-.map(x=>`
+.map(function(x){
 
-<div class="item">
+return '<div class="item">'+
 
-<strong class="${x.tipo==="entrada"?"green":"red"}">
+'<strong class="'+
+(x.tipo==='entrada'?'green':'red')+
+'">'+
 
-${x.tipo==="entrada"?"🟢 +":"🔴 -"}
-${dinheiro(x.valor)}
+(x.tipo==='entrada'
+?'🟢 +'
+:'🔴 -')+
 
-</strong>
+dinheiro(x.valor)+
 
-<small>
-${escapar(x.descricao)}
-</small>
+'</strong>'+
 
-<small>
-Categoria: ${escapar(x.categoria)}
-</small>
+'<small>'+
+esc(x.descricao)+
+'</small>'+
 
-<small>
-Data: ${escapar(x.data)}
-</small>
+'<small>'+
+'Categoria: '+
+esc(x.categoria)+
+' • '+
+esc(x.data)+
+'</small>'+
 
-</div>
+'<div class="action-row">'+
 
-`)
-.join("");
+'<button class="secondary" onclick="editar(\'financeiro\','+
+x.id+
+')">'+
+'✏️ Editar'+
+'</button>'+
+
+'<button class="danger" onclick="excluir(\'financeiro\','+
+x.id+
+')">'+
+'🗑️ Excluir'+
+'</button>'+
+
+'</div>'+
+
+'</div>';
+
+})
+.join('');
 
 }
+
 
 
 function mostrarAgenda(){
 
-const el=document.getElementById("listaAgenda");
+var el=
+document.getElementById(
+'listaAgenda'
+);
 
-if(dados.servicos.length===0){
+
+if(!dados.servicos.length){
 
 el.innerHTML=
-'<div class="empty">Nenhum serviço agendado.</div>';
+'<div class="empty">'+
+'Nenhum serviço agendado.'+
+'</div>';
 
 return;
 
 }
 
-const lista=dados.servicos
+
+var l=
+dados.servicos
 .slice()
-.sort((a,b)=>
-(a.data||"").localeCompare(b.data||"")
+.sort(function(a,b){
+
+return String(a.data||'')
+.localeCompare(
+String(b.data||'')
 );
 
-el.innerHTML=lista.map(s=>`
+});
 
-<div class="item">
 
-<strong>
-📅 ${escapar(s.data)}
-</strong>
+el.innerHTML=
+l.map(function(s){
 
-<span class="badge">
-${escapar(s.hora || "Horário não informado")}
-</span>
+return '<div class="item">'+
 
-<small>
-👤 ${escapar(s.cliente)}
-</small>
+'<strong>📅 '+
+esc(s.data)+
+'</strong> '+
 
-<small>
-${escapar(s.tipo)} — ${escapar(s.servico)}
-</small>
+'<span class="badge">'+
+esc(s.hora||'Sem horário')+
+'</span>'+
 
-<small>
-${escapar(s.observacoes)}
-</small>
+'<small>👤 '+
+esc(s.cliente)+
+'</small>'+
 
-</div>
+'<small>'+
+esc(s.tipo)+
+' — '+
+esc(s.servico)+
+'</small>'+
 
-`).join("");
+'<small>💰 Valor: <b>'+
+dinheiro(s.valor)+
+'</b></small>'+
+
+(
+s.mensal==='sim'
+?
+'<small>🔁 Mensal — dia '+
+esc(s.diaMensal)+
+'</small>'
+:
+''
+)+
+
+'<small>'+
+esc(s.observacoes)+
+'</small>'+
+
+'<div class="action-row">'+
+
+'<button class="secondary" onclick="editar(\'servico\','+
+s.id+
+')">'+
+'✏️ Editar'+
+'</button>'+
+
+'<button class="danger" onclick="excluir(\'servico\','+
+s.id+
+')">'+
+'🗑️ Excluir'+
+'</button>'+
+
+'</div>'+
+
+'</div>';
+
+})
+.join('');
 
 }
+
 
 
 function atualizarInicio(){
 
-document.getElementById("totalClientes")
-.innerText=dados.clientes.length;
+document.getElementById(
+'totalClientes'
+).innerText=
+dados.clientes.length;
 
-document.getElementById("totalPiscinas")
-.innerText=dados.piscinas.length;
 
-document.getElementById("totalJardins")
-.innerText=dados.jardins.length;
+document.getElementById(
+'totalPiscinas'
+).innerText=
+dados.piscinas.length;
 
-document.getElementById("totalServicos")
-.innerText=dados.servicos.length;
 
-let entradas=dados.financeiro
-.filter(x=>x.tipo==="entrada")
-.reduce((s,x)=>s+Number(x.valor),0);
+document.getElementById(
+'totalJardins'
+).innerText=
+dados.jardins.length;
 
-let saidas=dados.financeiro
-.filter(x=>x.tipo==="saida")
-.reduce((s,x)=>s+Number(x.valor),0);
 
-document.getElementById("saldoInicio")
-.innerText=dinheiro(entradas-saidas);
+document.getElementById(
+'totalServicos'
+).innerText=
+dados.servicos.length;
 
-const el=document.getElementById("ultimosMovimentos");
 
-if(dados.financeiro.length===0){
+var e=dados.financeiro
+.filter(function(x){
+return x.tipo==='entrada';
+})
+.reduce(function(t,x){
+return t+Number(x.valor||0);
+},0);
+
+
+var s=dados.financeiro
+.filter(function(x){
+return x.tipo==='saida';
+})
+.reduce(function(t,x){
+return t+Number(x.valor||0);
+},0);
+
+
+document.getElementById(
+'saldoInicio'
+).innerText=
+dinheiro(e-s);
+
+
+document.getElementById(
+'previstoInicio'
+).innerText=
+dinheiro(
+valorMensal()
+);
+
+
+var el=
+document.getElementById(
+'ultimosMovimentos'
+);
+
+
+if(!dados.financeiro.length){
 
 el.innerHTML=
-'<div class="empty">Nenhum movimento ainda.</div>';
+'<div class="empty">'+
+'Nenhum movimento ainda.'+
+'</div>';
 
 return;
 
 }
 
-el.innerHTML=dados.financeiro
+
+el.innerHTML=
+dados.financeiro
 .slice()
 .reverse()
 .slice(0,5)
-.map(x=>`
+.map(function(x){
 
-<div class="item">
+return '<div class="item">'+
 
-<strong class="${x.tipo==="entrada"?"green":"red"}">
+'<strong class="'+
+(x.tipo==='entrada'
+?'green'
+:'red')+
+'">'+
 
-${x.tipo==="entrada"?"🟢":"🔴"}
-${dinheiro(x.valor)}
+(x.tipo==='entrada'
+?'🟢 '
+:'🔴 ')+
 
-</strong>
+dinheiro(x.valor)+
 
-<small>
-${escapar(x.descricao)}
-</small>
+'</strong>'+
 
-</div>
+'<small>'+
+esc(x.descricao)+
+'</small>'+
 
-`).join("");
+'</div>';
+
+})
+.join('');
 
 }
+
 
 
 function atualizarTudo(){
@@ -1204,6 +1755,191 @@ mostrarFinanceiro();
 mostrarAgenda();
 
 }
+
+
+
+function exportarBackup(){
+
+var b=new Blob(
+[
+JSON.stringify(
+dados,
+null,
+2
+)
+],
+{
+type:'application/json'
+}
+);
+
+
+var a=document.createElement('a');
+
+
+a.href=
+URL.createObjectURL(b);
+
+
+a.download=
+'backup-dev-jardinagem-'+
+hoje()+
+'.json';
+
+
+a.click();
+
+
+setTimeout(
+function(){
+URL.revokeObjectURL(a.href);
+},
+1000
+);
+
+}
+
+
+
+function restaurarBackup(ev){
+
+var f=
+ev.target.files[0];
+
+
+if(!f)return;
+
+
+var r=
+new FileReader();
+
+
+r.onload=function(){
+
+try{
+
+var n=
+JSON.parse(
+r.result
+);
+
+
+if(
+!n ||
+!Array.isArray(n.clientes)
+){
+
+throw 0;
+
+}
+
+
+dados=n;
+
+
+dados.clientes=
+dados.clientes||[];
+
+dados.piscinas=
+dados.piscinas||[];
+
+dados.jardins=
+dados.jardins||[];
+
+dados.financeiro=
+dados.financeiro||[];
+
+dados.servicos=
+dados.servicos||[];
+
+
+salvar();
+
+
+alert(
+'Backup restaurado com sucesso.'
+);
+
+
+}catch(e){
+
+alert(
+'Arquivo de backup inválido.'
+);
+
+}
+
+};
+
+
+r.readAsText(f);
+
+
+ev.target.value='';
+
+}
+
+
+function relatorioMes(){
+
+var mes=
+hoje().slice(0,7);
+
+
+var e=
+dados.financeiro
+.filter(function(x){
+
+return x.tipo==='entrada' &&
+String(x.data||'')
+.startsWith(mes);
+
+})
+.reduce(function(t,x){
+
+return t+
+Number(x.valor||0);
+
+},0);
+
+
+var s=
+dados.financeiro
+.filter(function(x){
+
+return x.tipo==='saida' &&
+String(x.data||'')
+.startsWith(mes);
+
+})
+.reduce(function(t,x){
+
+return t+
+Number(x.valor||0);
+
+},0);
+
+
+alert(
+
+'RELATÓRIO '+mes+
+
+'\n\nRecebido: '+
+dinheiro(e)+
+
+'\nSaídas: '+
+dinheiro(s)+
+
+'\nSaldo: '+
+dinheiro(e-s)+
+
+'\nPrevisto em serviços mensais: '+
+dinheiro(valorMensal())
+
+);
+
+}
+
 
 
 atualizarTudo();
