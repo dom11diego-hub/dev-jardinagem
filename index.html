@@ -95,6 +95,10 @@ h2{
     color:#1769aa;
 }
 
+.orange{
+    color:#ef6c00;
+}
+
 button{
     border:none;
     border-radius:11px;
@@ -248,12 +252,6 @@ label{
     margin-bottom:12px;
 }
 
-.photo-preview{
-    max-width:100%;
-    border-radius:12px;
-    margin-top:10px;
-}
-
 .badge{
     display:inline-block;
     padding:5px 9px;
@@ -262,6 +260,12 @@ label{
     color:#075c3b;
     font-size:12px;
     font-weight:bold;
+    margin:2px;
+}
+
+.badge.orange{
+    background:#fff0df;
+    color:#ef6c00;
 }
 
 .finance-summary{
@@ -270,10 +274,45 @@ label{
     gap:10px;
 }
 
+.month-summary{
+    background:#075c3b;
+    color:white;
+    border-radius:16px;
+    padding:18px;
+    margin-bottom:12px;
+}
+
+.month-summary .valor{
+    font-size:29px;
+    font-weight:bold;
+    margin-top:5px;
+}
+
 hr{
     border:none;
     border-top:1px solid #eee;
     margin:15px 0;
+}
+
+.check-box{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:#f2f7f4;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:13px;
+}
+
+.check-box input{
+    width:20px;
+    height:20px;
+    margin:0;
+}
+
+.check-box label{
+    margin:0;
+    font-size:15px;
 }
 
 @media(max-width:500px){
@@ -322,8 +361,16 @@ hr{
 
 </div>
 
+<div class="month-summary">
+<div>💰 Faturamento previsto do mês</div>
+<div class="valor" id="faturamentoMes">
+R$ 0,00
+</div>
+<small id="mesAtual"></small>
+</div>
+
 <div class="card">
-<div class="card-title">Saldo atual</div>
+<div class="card-title">Saldo financeiro</div>
 <div class="number green" id="saldoInicio">R$ 0,00</div>
 </div>
 
@@ -336,6 +383,11 @@ hr{
 <div class="card">
 <h3>💰 Últimos movimentos</h3>
 <div id="ultimosMovimentos"></div>
+</div>
+
+<div class="card">
+<h3>📅 Próximos serviços</h3>
+<div id="proximosServicos"></div>
 </div>
 
 </section>
@@ -394,23 +446,37 @@ oninput="mostrarClientes()">
 
 <h2>💰 Financeiro</h2>
 
+<div class="month-summary">
+<div>📅 Faturamento previsto neste mês</div>
+<div class="valor" id="faturamentoFinanceiro">
+R$ 0,00
+</div>
+<small id="mesFinanceiro"></small>
+</div>
+
 <div class="finance-summary">
 
 <div class="card">
 <div class="card-title">Entradas</div>
-<div class="number green" id="totalEntradas">R$ 0,00</div>
+<div class="number green" id="totalEntradas">
+R$ 0,00
+</div>
 </div>
 
 <div class="card">
 <div class="card-title">Saídas</div>
-<div class="number red" id="totalSaidas">R$ 0,00</div>
+<div class="number red" id="totalSaidas">
+R$ 0,00
+</div>
 </div>
 
 </div>
 
 <div class="card">
 <div class="card-title">Saldo</div>
-<div class="number blue" id="saldoFinanceiro">R$ 0,00</div>
+<div class="number blue" id="saldoFinanceiro">
+R$ 0,00
+</div>
 </div>
 
 <button onclick="abrirModal('financeiro')">
@@ -486,13 +552,44 @@ oninput="mostrarClientes()">
 
 const CHAVE = "dev_jardinagem_dados";
 
-let dados = JSON.parse(
+let dados;
+
+try{
+
+dados = JSON.parse(
 localStorage.getItem(CHAVE)
-||
-'{"clientes":[],"piscinas":[],"jardins":[],"financeiro":[],"servicos":[]}'
 );
 
+}catch(e){
+
+dados = null;
+
+}
+
+if(!dados){
+
+dados={
+clientes:[],
+piscinas:[],
+jardins:[],
+financeiro:[],
+servicos:[]
+};
+
+}
+
+dados.clientes = dados.clientes || [];
+dados.piscinas = dados.piscinas || [];
+dados.jardins = dados.jardins || [];
+dados.financeiro = dados.financeiro || [];
+dados.servicos = dados.servicos || [];
+
 let tipoModal = "";
+
+
+/* =========================
+   FUNÇÕES BÁSICAS
+========================= */
 
 function salvar(){
 
@@ -504,6 +601,7 @@ JSON.stringify(dados)
 atualizarTudo();
 
 }
+
 
 function dinheiro(valor){
 
@@ -517,6 +615,7 @@ currency:"BRL"
 
 }
 
+
 function escapar(texto){
 
 return String(texto || "")
@@ -529,16 +628,59 @@ return String(texto || "")
 }
 
 
+function dataHoje(){
+
+const d=new Date();
+
+return d.toISOString().slice(0,10);
+
+}
+
+
+function formatarData(data){
+
+if(!data) return "-";
+
+const partes=data.split("-");
+
+if(partes.length!==3) return data;
+
+return partes[2]+"/"+partes[1]+"/"+partes[0];
+
+}
+
+
+function nomeMes(){
+
+return new Date().toLocaleDateString(
+"pt-BR",
+{
+month:"long",
+year:"numeric"
+}
+);
+
+}
+
+
+/* =========================
+   NAVEGAÇÃO
+========================= */
+
 function irPara(id,botao){
 
 document.querySelectorAll(".page")
-.forEach(p=>p.classList.remove("active"));
+.forEach(p=>{
+p.classList.remove("active");
+});
 
 document.getElementById(id)
 .classList.add("active");
 
 document.querySelectorAll(".bottom-nav button")
-.forEach(b=>b.classList.remove("active"));
+.forEach(b=>{
+b.classList.remove("active");
+});
 
 botao.classList.add("active");
 
@@ -549,12 +691,46 @@ window.scrollTo(0,0);
 }
 
 
+/* =========================
+   CLIENTES
+========================= */
+
+function opcoesClientes(){
+
+if(dados.clientes.length===0){
+
+return `
+<option value="">
+Nenhum cliente cadastrado
+</option>
+`;
+
+}
+
+return dados.clientes
+.map(c=>`
+<option value="${escapar(c.nome)}">
+${escapar(c.nome)}
+</option>
+`)
+.join("");
+
+}
+
+
+/* =========================
+   MODAIS
+========================= */
+
 function abrirModal(tipo){
 
 tipoModal=tipo;
 
 let titulo="";
 let html="";
+
+
+/* CLIENTE */
 
 if(tipo==="cliente"){
 
@@ -574,11 +750,16 @@ html=`
 <label>Observações</label>
 <textarea name="observacoes"></textarea>
 
-<button type="submit">Salvar cliente</button>
+<button type="submit">
+Salvar cliente
+</button>
+
 `;
 
 }
 
+
+/* PISCINA */
 
 if(tipo==="piscina"){
 
@@ -587,6 +768,7 @@ titulo="🏊 Nova piscina";
 html=`
 
 <label>Cliente</label>
+
 <select name="cliente">
 ${opcoesClientes()}
 </select>
@@ -597,13 +779,17 @@ ${opcoesClientes()}
 <div class="form-row">
 
 <div>
+
 <label>Volume / tamanho</label>
 <input name="volume">
+
 </div>
 
 <div>
+
 <label>pH</label>
 <input name="ph" type="number" step="0.1">
+
 </div>
 
 </div>
@@ -618,15 +804,26 @@ ${opcoesClientes()}
 <textarea name="observacoes"></textarea>
 
 <div class="photo-box">
+
 📷 Foto da piscina
-<input type="file" accept="image/*" name="foto">
+
+<input
+type="file"
+accept="image/*"
+name="foto">
+
 </div>
 
-<button type="submit">Salvar piscina</button>
+<button type="submit">
+Salvar piscina
+</button>
+
 `;
 
 }
 
+
+/* JARDIM */
 
 if(tipo==="jardim"){
 
@@ -635,6 +832,7 @@ titulo="🌿 Novo jardim";
 html=`
 
 <label>Cliente</label>
+
 <select name="cliente">
 ${opcoesClientes()}
 </select>
@@ -662,15 +860,26 @@ ${opcoesClientes()}
 <textarea name="observacoes"></textarea>
 
 <div class="photo-box">
+
 📷 Foto do jardim
-<input type="file" accept="image/*" name="foto">
+
+<input
+type="file"
+accept="image/*"
+name="foto">
+
 </div>
 
-<button type="submit">Salvar jardim</button>
+<button type="submit">
+Salvar jardim
+</button>
+
 `;
 
 }
 
+
+/* FINANCEIRO */
 
 if(tipo==="financeiro"){
 
@@ -712,19 +921,31 @@ html=`
 </select>
 
 <label>Valor</label>
-<input name="valor" type="number" step="0.01" required>
+
+<input
+name="valor"
+type="number"
+step="0.01"
+min="0"
+required>
 
 <label>Data</label>
-<input name="data" type="date"
-value="${new Date().toISOString().slice(0,10)}">
+
+<input
+name="data"
+type="date"
+value="${dataHoje()}">
 
 <button type="submit">
 Salvar movimento
 </button>
+
 `;
 
 }
 
+
+/* SERVIÇO */
 
 if(tipo==="servico"){
 
@@ -738,8 +959,10 @@ html=`
 
 <option>Piscina</option>
 <option>Jardim</option>
+<option>Outro</option>
 
 </select>
+
 
 <label>Cliente</label>
 
@@ -749,20 +972,26 @@ ${opcoesClientes()}
 
 </select>
 
+
 <label>Serviço</label>
 
-<input name="servico" required>
+<input
+name="servico"
+required
+placeholder="Ex: Manutenção de piscina">
+
 
 <div class="form-row">
 
 <div>
 
-<label>Data</label>
+<label>Data do serviço</label>
 
 <input
 name="data"
 type="date"
-value="${new Date().toISOString().slice(0,10)}">
+value="${dataHoje()}"
+required>
 
 </div>
 
@@ -770,18 +999,70 @@ value="${new Date().toISOString().slice(0,10)}">
 
 <label>Horário</label>
 
-<input name="hora" type="time">
+<input
+name="hora"
+type="time">
 
 </div>
 
 </div>
+
+
+<label>Valor do serviço</label>
+
+<input
+name="valor"
+type="number"
+step="0.01"
+min="0"
+placeholder="Ex: 250.00"
+required>
+
+
+<div class="check-box">
+
+<input
+type="checkbox"
+id="servicoMensal"
+name="mensal"
+value="sim">
+
+<label for="servicoMensal">
+🔄 Serviço mensal / recorrente
+</label>
+
+</div>
+
+
+<div id="campoMensal" style="display:none;">
+
+<label>
+📅 Dia da cobrança mensal
+</label>
+
+<input
+name="diaMensal"
+type="number"
+min="1"
+max="31"
+placeholder="Ex: 10">
+
+<small style="display:block;color:#697871;margin-bottom:13px;">
+O valor deste serviço será considerado no faturamento previsto de todos os meses.
+</small>
+
+</div>
+
 
 <label>Observações</label>
 
-<textarea name="observacoes"></textarea>
+<textarea
+name="observacoes"
+placeholder="Observações do serviço"></textarea>
+
 
 <button type="submit">
-Agendar serviço
+Salvar serviço
 </button>
 
 `;
@@ -798,6 +1079,31 @@ document.getElementById("formulario")
 document.getElementById("modal")
 .classList.add("show");
 
+
+/* MOSTRAR CAMPO DE SERVIÇO MENSAL */
+
+const checkbox=document.getElementById("servicoMensal");
+
+if(checkbox){
+
+checkbox.addEventListener("change",function(){
+
+const campo=document.getElementById("campoMensal");
+
+if(this.checked){
+
+campo.style.display="block";
+
+}else{
+
+campo.style.display="none";
+
+}
+
+});
+
+}
+
 }
 
 
@@ -809,24 +1115,9 @@ document.getElementById("modal")
 }
 
 
-function opcoesClientes(){
-
-if(dados.clientes.length===0){
-
-return `<option value="">Nenhum cliente cadastrado</option>`;
-
-}
-
-return dados.clientes
-.map(c=>`
-<option value="${escapar(c.nome)}">
-${escapar(c.nome)}
-</option>
-`)
-.join("");
-
-}
-
+/* =========================
+   SALVAR FORMULÁRIOS
+========================= */
 
 document.getElementById("formulario")
 .addEventListener("submit",function(e){
@@ -835,9 +1126,14 @@ e.preventDefault();
 
 const formData=new FormData(this);
 
-const objeto=Object.fromEntries(formData.entries());
+const objeto=Object.fromEntries(
+formData.entries()
+);
 
 objeto.id=Date.now();
+
+
+/* CLIENTE */
 
 if(tipoModal==="cliente"){
 
@@ -845,11 +1141,17 @@ dados.clientes.push(objeto);
 
 }
 
+
+/* PISCINA */
+
 if(tipoModal==="piscina"){
 
 dados.piscinas.push(objeto);
 
 }
+
+
+/* JARDIM */
 
 if(tipoModal==="jardim"){
 
@@ -857,19 +1159,42 @@ dados.jardins.push(objeto);
 
 }
 
+
+/* FINANCEIRO */
+
 if(tipoModal==="financeiro"){
 
-objeto.valor=Number(objeto.valor);
+objeto.valor=Number(objeto.valor || 0);
 
 dados.financeiro.push(objeto);
 
 }
 
+
+/* SERVIÇO */
+
 if(tipoModal==="servico"){
+
+objeto.valor=Number(objeto.valor || 0);
+
+objeto.mensal=
+objeto.mensal==="sim";
+
+if(objeto.mensal){
+
+objeto.diaMensal=
+Number(objeto.diaMensal || 1);
+
+}else{
+
+objeto.diaMensal="";
+
+}
 
 dados.servicos.push(objeto);
 
 }
+
 
 salvar();
 
@@ -878,6 +1203,10 @@ fecharModal();
 });
 
 
+/* =========================
+   CLIENTES
+========================= */
+
 function mostrarClientes(){
 
 const busca=
@@ -885,7 +1214,7 @@ const busca=
 .toLowerCase();
 
 const lista=dados.clientes.filter(c=>
-c.nome.toLowerCase().includes(busca)
+(c.nome || "").toLowerCase().includes(busca)
 );
 
 const elemento=
@@ -904,7 +1233,9 @@ elemento.innerHTML=lista.map(c=>`
 
 <div class="item">
 
-<strong>👤 ${escapar(c.nome)}</strong>
+<strong>
+👤 ${escapar(c.nome)}
+</strong>
 
 <small>
 📞 ${escapar(c.telefone)}
@@ -925,9 +1256,14 @@ ${escapar(c.observacoes)}
 }
 
 
+/* =========================
+   PISCINAS
+========================= */
+
 function mostrarPiscinas(){
 
-const el=document.getElementById("listaPiscinas");
+const el=
+document.getElementById("listaPiscinas");
 
 if(dados.piscinas.length===0){
 
@@ -942,7 +1278,9 @@ el.innerHTML=dados.piscinas.map(p=>`
 
 <div class="item">
 
-<strong>🏊 ${escapar(p.cliente)}</strong>
+<strong>
+🏊 ${escapar(p.cliente)}
+</strong>
 
 <span class="badge">
 pH ${escapar(p.ph || "-")}
@@ -953,11 +1291,13 @@ Cloro ${escapar(p.cloro || "-")}
 </span>
 
 <small>
-📏 Volume/tamanho: ${escapar(p.volume)}
+📏 Volume/tamanho:
+${escapar(p.volume)}
 </small>
 
 <small>
-🧪 Produtos: ${escapar(p.produtos)}
+🧪 Produtos:
+${escapar(p.produtos)}
 </small>
 
 <small>
@@ -971,9 +1311,14 @@ Cloro ${escapar(p.cloro || "-")}
 }
 
 
+/* =========================
+   JARDINS
+========================= */
+
 function mostrarJardins(){
 
-const el=document.getElementById("listaJardins");
+const el=
+document.getElementById("listaJardins");
 
 if(dados.jardins.length===0){
 
@@ -988,7 +1333,9 @@ el.innerHTML=dados.jardins.map(j=>`
 
 <div class="item">
 
-<strong>🌿 ${escapar(j.cliente)}</strong>
+<strong>
+🌿 ${escapar(j.cliente)}
+</strong>
 
 <span class="badge">
 ${escapar(j.servico)}
@@ -999,7 +1346,8 @@ ${escapar(j.servico)}
 </small>
 
 <small>
-🌱 Produtos: ${escapar(j.produtos)}
+🌱 Produtos:
+${escapar(j.produtos)}
 </small>
 
 <small>
@@ -1013,15 +1361,88 @@ ${escapar(j.servico)}
 }
 
 
+/* =========================
+   FATURAMENTO MENSAL
+========================= */
+
+function calcularFaturamentoMes(){
+
+const anoAtual=
+new Date().getFullYear();
+
+const mesAtual=
+new Date().getMonth()+1;
+
+
+/*
+Serviços mensais entram
+automaticamente no mês.
+*/
+
+let totalMensal=
+dados.servicos
+.filter(s=>s.mensal===true)
+.reduce((s,x)=>
+s+Number(x.valor || 0),0
+);
+
+
+/*
+Serviços não mensais entram
+somente se estiverem agendados
+no mês atual.
+*/
+
+let servicosUnicos=
+dados.servicos
+.filter(s=>{
+
+if(s.mensal===true)
+return false;
+
+if(!s.data)
+return false;
+
+const partes=s.data.split("-");
+
+if(partes.length!==3)
+return false;
+
+return(
+Number(partes[0])===anoAtual &&
+Number(partes[1])===mesAtual
+);
+
+})
+.reduce((s,x)=>
+s+Number(x.valor || 0),0
+);
+
+return totalMensal + servicosUnicos;
+
+}
+
+
+/* =========================
+   FINANCEIRO
+========================= */
+
 function mostrarFinanceiro(){
 
 let entradas=dados.financeiro
 .filter(x=>x.tipo==="entrada")
-.reduce((s,x)=>s+Number(x.valor),0);
+.reduce(
+(s,x)=>s+Number(x.valor || 0),
+0
+);
 
 let saidas=dados.financeiro
 .filter(x=>x.tipo==="saida")
-.reduce((s,x)=>s+Number(x.valor),0);
+.reduce(
+(s,x)=>s+Number(x.valor || 0),
+0
+);
+
 
 document.getElementById("totalEntradas")
 .innerText=dinheiro(entradas);
@@ -1030,9 +1451,25 @@ document.getElementById("totalSaidas")
 .innerText=dinheiro(saidas);
 
 document.getElementById("saldoFinanceiro")
-.innerText=dinheiro(entradas-saidas);
+.innerText=
+dinheiro(entradas-saidas);
 
-const el=document.getElementById("listaFinanceiro");
+
+const faturamento=
+calcularFaturamentoMes();
+
+document.getElementById("faturamentoFinanceiro")
+.innerText=
+dinheiro(faturamento);
+
+document.getElementById("mesFinanceiro")
+.innerText=
+nomeMes();
+
+
+const el=
+document.getElementById("listaFinanceiro");
+
 
 if(dados.financeiro.length===0){
 
@@ -1043,6 +1480,7 @@ return;
 
 }
 
+
 el.innerHTML=dados.financeiro
 .slice()
 .reverse()
@@ -1050,7 +1488,8 @@ el.innerHTML=dados.financeiro
 
 <div class="item">
 
-<strong class="${x.tipo==="entrada"?"green":"red"}">
+<strong
+class="${x.tipo==="entrada"?"green":"red"}">
 
 ${x.tipo==="entrada"?"🟢 +":"🔴 -"}
 ${dinheiro(x.valor)}
@@ -1062,11 +1501,13 @@ ${escapar(x.descricao)}
 </small>
 
 <small>
-Categoria: ${escapar(x.categoria)}
+Categoria:
+${escapar(x.categoria)}
 </small>
 
 <small>
-Data: ${escapar(x.data)}
+Data:
+${formatarData(x.data)}
 </small>
 
 </div>
@@ -1077,9 +1518,14 @@ Data: ${escapar(x.data)}
 }
 
 
+/* =========================
+   AGENDA
+========================= */
+
 function mostrarAgenda(){
 
-const el=document.getElementById("listaAgenda");
+const el=
+document.getElementById("listaAgenda");
 
 if(dados.servicos.length===0){
 
@@ -1090,31 +1536,64 @@ return;
 
 }
 
+
 const lista=dados.servicos
 .slice()
 .sort((a,b)=>
 (a.data||"").localeCompare(b.data||"")
 );
 
+
 el.innerHTML=lista.map(s=>`
 
 <div class="item">
 
 <strong>
-📅 ${escapar(s.data)}
+📅 ${formatarData(s.data)}
 </strong>
 
 <span class="badge">
 ${escapar(s.hora || "Horário não informado")}
 </span>
 
+${
+s.mensal
+?
+`<span class="badge orange">
+🔄 Mensal
+</span>`
+:
+""
+}
+
 <small>
 👤 ${escapar(s.cliente)}
 </small>
 
 <small>
-${escapar(s.tipo)} — ${escapar(s.servico)}
+${escapar(s.tipo)}
+—
+${escapar(s.servico)}
 </small>
+
+<small>
+💰 Valor:
+<strong>
+${dinheiro(s.valor)}
+</strong>
+</small>
+
+${
+s.mensal
+?
+`
+<small>
+📅 Todo dia ${escapar(s.diaMensal)}
+</small>
+`
+:
+""
+}
 
 <small>
 ${escapar(s.observacoes)}
@@ -1126,6 +1605,89 @@ ${escapar(s.observacoes)}
 
 }
 
+
+/* =========================
+   PRÓXIMOS SERVIÇOS
+========================= */
+
+function mostrarProximosServicos(){
+
+const el=
+document.getElementById("proximosServicos");
+
+if(!el) return;
+
+
+if(dados.servicos.length===0){
+
+el.innerHTML=
+'<div class="empty">Nenhum serviço agendado.</div>';
+
+return;
+
+}
+
+
+const hoje=dataHoje();
+
+const lista=dados.servicos
+.filter(s=>
+s.mensal ||
+(s.data && s.data>=hoje)
+)
+.sort((a,b)=>
+(a.data||"").localeCompare(b.data||"")
+)
+.slice(0,5);
+
+
+if(lista.length===0){
+
+el.innerHTML=
+'<div class="empty">Nenhum próximo serviço.</div>';
+
+return;
+
+}
+
+
+el.innerHTML=lista.map(s=>`
+
+<div class="item">
+
+<strong>
+${s.mensal ? "🔄" : "📅"}
+${escapar(s.cliente)}
+</strong>
+
+<span class="badge">
+${escapar(s.servico)}
+</span>
+
+<small>
+💰 ${dinheiro(s.valor)}
+</small>
+
+<small>
+${
+s.mensal
+?
+"Todo dia "+escapar(s.diaMensal)
+:
+formatarData(s.data)
+}
+</small>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* =========================
+   INÍCIO
+========================= */
 
 function atualizarInicio(){
 
@@ -1141,27 +1703,51 @@ document.getElementById("totalJardins")
 document.getElementById("totalServicos")
 .innerText=dados.servicos.length;
 
+
 let entradas=dados.financeiro
 .filter(x=>x.tipo==="entrada")
-.reduce((s,x)=>s+Number(x.valor),0);
+.reduce(
+(s,x)=>s+Number(x.valor || 0),
+0
+);
 
 let saidas=dados.financeiro
 .filter(x=>x.tipo==="saida")
-.reduce((s,x)=>s+Number(x.valor),0);
+.reduce(
+(s,x)=>s+Number(x.valor || 0),
+0
+);
+
 
 document.getElementById("saldoInicio")
-.innerText=dinheiro(entradas-saidas);
+.innerText=
+dinheiro(entradas-saidas);
 
-const el=document.getElementById("ultimosMovimentos");
+
+const faturamento=
+calcularFaturamentoMes();
+
+
+document.getElementById("faturamentoMes")
+.innerText=
+dinheiro(faturamento);
+
+
+document.getElementById("mesAtual")
+.innerText=
+nomeMes();
+
+
+const el=
+document.getElementById("ultimosMovimentos");
+
 
 if(dados.financeiro.length===0){
 
 el.innerHTML=
 '<div class="empty">Nenhum movimento ainda.</div>';
 
-return;
-
-}
+}else{
 
 el.innerHTML=dados.financeiro
 .slice()
@@ -1171,7 +1757,8 @@ el.innerHTML=dados.financeiro
 
 <div class="item">
 
-<strong class="${x.tipo==="entrada"?"green":"red"}">
+<strong
+class="${x.tipo==="entrada"?"green":"red"}">
 
 ${x.tipo==="entrada"?"🟢":"🔴"}
 ${dinheiro(x.valor)}
@@ -1189,6 +1776,15 @@ ${escapar(x.descricao)}
 }
 
 
+mostrarProximosServicos();
+
+}
+
+
+/* =========================
+   ATUALIZAR TUDO
+========================= */
+
 function atualizarTudo(){
 
 atualizarInicio();
@@ -1205,6 +1801,10 @@ mostrarAgenda();
 
 }
 
+
+/* =========================
+   INICIAR
+========================= */
 
 atualizarTudo();
 
